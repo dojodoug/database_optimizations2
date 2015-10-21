@@ -22,6 +22,15 @@ class ReportsController < ApplicationController
     @memory_used = memory_in_mb
   end
 
+  def search
+    if params[:search]
+      q = "%#{params[:search]}%"
+      @assemblies = Assembly.joins(:sequences).
+        where("", q)
+    end
+
+  end
+
   private def memory_in_mb
     `ps -o rss -p #{$$}`.strip.split.last.to_i / 1024
   end
